@@ -31,7 +31,7 @@ async def on_message(message):
 
     await bot.process_commands(message)
     
-@BOT.event
+@bot.event
 async def on_message_edit(before, after):
     if after.author.bot or after.pinned:
         return
