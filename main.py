@@ -10,7 +10,7 @@ intents.messages = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-EXEMPT_USER_ID = 820726469579112448 # use your own id etc.
+EXEMPT_USER_ID = 701156951798841364 # use your own id etc.
 
 @bot.event
 async def on_ready():
