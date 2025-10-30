@@ -30,6 +30,19 @@ async def on_message(message):
             print(f"Failed to delete message: {e}")
 
     await bot.process_commands(message)
+    
+    @BOT.event
+async def on_message_edit(before, after):
+    if after.author.bot or after.pinned:
+        return
+
+    if re.search(r'\b67\b', after.content):
+        try:
+            await after.delete()
+        except discord.Forbidden:
+            print("Missing permissions to delete an edited message.")
+        except discord.NotFound:
+            pass
 
 # Bot Token
 bot.run(os.getenv("TOKEN"))
