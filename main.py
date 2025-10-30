@@ -10,6 +10,8 @@ intents.messages = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+EXEMPT_USER_ID = 820726469579112448 # use your own id etc.
+
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
@@ -19,6 +21,9 @@ async def on_message(message):
     # Ignore messages from bots or pinned messages
     if message.author.bot or message.pinned:
         return
+        
+    if message.author.id == EXEMPT_USER_ID:
+        return   
 
     # Check for "67" using regex
     if re.search(r'\b67\b', message.content):
@@ -34,6 +39,9 @@ async def on_message(message):
 @bot.event
 async def on_message_edit(before, after):
     if after.author.bot or after.pinned:
+        return
+        
+    if after.author.id == EXEMPT_USER_ID:
         return
 
     if re.search(r'\b67\b', after.content):
