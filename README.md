@@ -1,9 +1,8 @@
 # 67-Negator <img src="https://img.shields.io/github/followers/MicahXX?style=for-the-badge" alt="Followers Badge"/> <img src="https://img.shields.io/github/stars/MicahXX/67-Negator?style=for-the-badge" alt="Stars Badge"/>
 
-A small Discord moderation bot that purposefully deletes any message containing the string "67".
+A small Discord moderation bot that purposefully deletes any message containing "67" or "six seven".
 
 ## Table of contents
-- Features
 - Requirements
 - Installation
 - Quick start
@@ -12,11 +11,6 @@ A small Discord moderation bot that purposefully deletes any message containing 
 - Troubleshooting
 - Links
 - Author
-
-## Features
-- Automatically deletes any message containing "67" (intentional behavior).
-- Lightweight, pure-Python bot.
-- Easy configuration via environment variable.
 
 ## Requirements
 - Python 3.8+
