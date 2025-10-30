@@ -1,3 +1,5 @@
+import re
+
 import discord
 import os
 from discord.ext import commands
@@ -18,12 +20,12 @@ async def on_message(message):
     if message.author.bot or message.pinned:
         return
 
-    # Check if "67" appears in the message content
-    if "67" in message.content:
+    # Check for "67" using regex
+    if re.search(r'\b67\b', message.content):
         try:
             await message.delete()
         except discord.Forbidden:
-            print(f"Missing permissions to delete messages.")
+            print("Missing permissions to delete messages.")
         except discord.HTTPException as e:
             print(f"Failed to delete message: {e}")
 
