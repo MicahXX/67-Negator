@@ -8,7 +8,8 @@ intents.messages = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-EXEMPT_USER_ID = 701156951798841364  # replace with your own user ID
+EXEMPT_USER_ID = 701156951798841364  # exempt User
+EXCLUDED_CHANNEL_IDS = {1406903279278886952}  # exempt Channel
 
 @bot.event
 async def on_ready():
@@ -50,6 +51,8 @@ async def on_message(message):
         return
     if message.author.id == EXEMPT_USER_ID:
         return
+    if message.channel.id in EXCLUDED_CHANNEL_IDS:
+        return
 
     if contains_banned_pattern(message.content):
         try:
@@ -68,11 +71,12 @@ async def on_message_edit(before, after):
         return
     if after.author.id == EXEMPT_USER_ID:
         return
+    if after.channel.id in EXCLUDED_CHANNEL_IDS:
+        return
 
     if contains_banned_pattern(after.content):
         try:
             await after.delete()
-            print(f"Deleted edited message from {after.author}: {after.content}")
         except discord.Forbidden:
             print("Missing permissions to delete edited messages.")
         except discord.NotFound:
