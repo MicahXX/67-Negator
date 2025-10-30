@@ -19,6 +19,10 @@ async def on_ready():
 def contains_banned_pattern(content: str) -> bool:
     lowered = content.lower()
 
+    # excludes gifs
+    if "http://" in lowered or "https://" in lowered:
+        return False
+
     # Common separators
     separators = [" ", "-", "_", "/", "&", ".", "~", ","]
 
