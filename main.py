@@ -23,6 +23,10 @@ def contains_banned_pattern(content: str) -> bool:
     if "http://" in lowered or "https://" in lowered:
         return False
 
+    # excludes pinging people
+    if "@" in lowered or "@" in lowered:
+        return False
+
     # Common separators
     separators = [" ", "-", "_", "/", "&", ".", "~", ","]
 
