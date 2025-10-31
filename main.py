@@ -57,7 +57,7 @@ def contains_banned_pattern(content: str) -> bool:
     normalized = lowered
     for sep in separators:
         normalized = normalized.replace(sep, "")
-    banned_combos = ["67", "sixseven", "sixtyseven"]
+    banned_combos = ["67", "sixseven", "sixtyseven", "sixmyseven"]
     if any(pattern in normalized for pattern in banned_combos):
         return True
     for sep in separators:
@@ -167,4 +167,7 @@ async def show_exclusions(interaction: discord.Interaction):
         f"**Excluded Users:** {users}\n**Excluded Channels:** {channels}"
     )
 
-bot.run(os.getenv("TOKEN"))
+token = os.getenv("TOKEN")
+if not token:
+    raise ValueError("Missing TOKEN environment variable.")
+bot.run(token)
