@@ -39,6 +39,7 @@ def contains_banned_pattern(content: str) -> bool:
     banned_combos = [
         "67",
         "sixseven",
+        "sixtyseven"
     ]
 
     # Direct match with no operator
