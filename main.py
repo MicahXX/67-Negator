@@ -74,7 +74,7 @@ async def on_message(message):
 
 # Check edited messages in the same way
 @bot.event
-async def on_message_edit(after):
+async def on_message_edit(before, after):
     if after.author.bot or after.pinned:
         return
     if after.author.id == EXEMPT_USER_ID:
