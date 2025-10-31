@@ -22,6 +22,7 @@ def contains_banned_pattern(content: str) -> bool:
     # exclude emojis
     if lowered.startswith("<"):
         return False
+
     # excludes gifs
     if "http://" in lowered or "https://" in lowered:
         return False
