@@ -167,7 +167,4 @@ async def show_exclusions(interaction: discord.Interaction):
         f"**Excluded Users:** {users}\n**Excluded Channels:** {channels}"
     )
 
-token = os.getenv("TOKEN")
-if not token:
-    raise ValueError("Missing TOKEN environment variable.")
-bot.run(token)
+bot.run(os.getenv("TOKEN"))
