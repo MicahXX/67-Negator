@@ -1,5 +1,6 @@
 import discord
 import os
+import re
 from discord.ext import commands
 
 intents = discord.Intents.default()
@@ -11,24 +12,41 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 EXEMPT_USER_ID = 701156951798841364  # exempt User
 EXCLUDED_CHANNEL_IDS = {1406903279278886952}  # exempt Channel
 
+
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
 
+
+# Regex to detect messages that are only emojis
+EMOJI_ONLY_PATTERN = re.compile(
+    r'^(?:'
+    r'(?:<a?:\w+:\d+>)+'  # Custom Discord emoji
+    r'|'
+    r'[\u2190-\u21FF\u2300-\u27BF\u2B00-\u2BFF\u1F000-\u1FAFF\u2600-\u26FF\u2700-\u27BF\uFE0F\u200D\s]+'
+    r')+$'
+)
+
+
+def is_emoji_only_message(text: str) -> bool:
+    text = text.strip()
+    return bool(text and EMOJI_ONLY_PATTERN.fullmatch(text))
+
+
 # Function to check for banned patterns
 def contains_banned_pattern(content: str) -> bool:
-    lowered = content.lower()
+    lowered = content.lower().strip()
 
-    # exclude emojis
-    if lowered.startswith("<"):
+    # Ignore emoji only messages
+    if is_emoji_only_message(lowered):
         return False
 
-    # excludes gifs
+    # Exclude links
     if "http://" in lowered or "https://" in lowered:
         return False
 
-    # excludes pinging people
-    if "@" in lowered or "@" in lowered:
+    # Exclude mentions
+    if "@" in lowered:
         return False
 
     # Common separators
@@ -57,20 +75,16 @@ def contains_banned_pattern(content: str) -> bool:
 
     return False
 
-# Check new messages
+
 @bot.event
 async def on_message(message):
-    # checks if the message is pinned or from bot
     if message.author.bot or message.pinned:
         return
-    # checks if user is excluded
     if message.author.id == EXEMPT_USER_ID:
         return
-    # checks if channel is excluded
     if message.channel.id in EXCLUDED_CHANNEL_IDS:
         return
 
-    # checks if message contains banned pattern
     if contains_banned_pattern(message.content):
         try:
             await message.delete()
@@ -81,7 +95,7 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-# Check edited messages in the same way
+
 @bot.event
 async def on_message_edit(before, after):
     if after.author.bot or after.pinned:
@@ -99,5 +113,5 @@ async def on_message_edit(before, after):
         except discord.NotFound:
             pass
 
-# Bot Token
+
 bot.run(os.getenv("TOKEN"))
