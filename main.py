@@ -165,7 +165,7 @@ async def show_exclusions(interaction: discord.Interaction):
     users = ", ".join(f"<@{uid}>" for uid in guild_data["users"]) or "None"
     channels = ", ".join(f"<#{cid}>" for cid in guild_data["channels"]) or "None"
     await interaction.response.send_message(
-        f"**Excluded Users:** {users}\n**Excluded Channels:** {channels}", ephemeral=True
+        f"**Excluded Users:** {users}\n**Excluded Channels:** {channels}"
     )
 
 bot.run(os.getenv("TOKEN"))
