@@ -84,7 +84,7 @@ async def on_message_edit(edited):
 
     if contains_banned_pattern(edited.content):
         try:
-            await edited.delete()
+            await edited.content.delete()
         except discord.Forbidden:
             print("Missing permissions to delete edited messages.")
         except discord.NotFound:
