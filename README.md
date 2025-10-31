@@ -7,6 +7,7 @@ Link to add the bot to your server: [discord.com/oauth2/authorize](https://disco
 - Requirements
 - Installation
 - Quick start
+- Commands
 - Behavior
 - Configuration
 - Troubleshooting
@@ -38,6 +39,13 @@ TOKEN = os.getenv("TOKEN")  # reads the token
 bot.run(TOKEN) # update last line
 ```
 And run the bot localy.
+
+## Commands (requires admin to use them)
+- /excludechannel — Exclude a channel from filtering. Usage: /excludechannel #channel
+- /excludeuser — Exclude a user from filtering. Usage: /excludeuser @user
+- /showexclusions — List all excluded channels and users in this server.
+- /unexcludechannel — Remove a channel from the exclusion list. Usage: /unexcludechannel #channel
+- /unexcludeuser — Remove a user from the exclusion list. Usage: /unexcludeuser @user
 
 ## Behavior
 - The bot listens to messages and deletes any message that contains the substring "67". This is the primary, intentional behavior of the project.
