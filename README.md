@@ -1,6 +1,7 @@
 # 67-Negator <img src="https://img.shields.io/github/followers/MicahXX?style=for-the-badge" alt="Followers Badge"/> <img src="https://img.shields.io/github/stars/MicahXX/67-Negator?style=for-the-badge" alt="Stars Badge"/>
 
-A small Discord moderation bot that purposefully deletes any message containing "67" or "six seven".
+A small Discord moderation bot that purposefully deletes any message containing "67" or "six seven". <br>
+Link to add the bot to your server: [discord.com/oauth2/authorize](https://discord.com/oauth2/authorize?client_id=1433286119725862933)
 
 ## Table of contents
 - Requirements
