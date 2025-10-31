@@ -83,9 +83,9 @@ async def on_message(message):
         try:
             await message.delete()
         except discord.Forbidden:
-            print("❌ Missing permissions to delete messages.")
+            print("Missing permissions to delete messages.")
         except discord.HTTPException as e:
-            print(f"❌ Failed to delete message: {e}")
+            print(f"Failed to delete message: {e}")
     await bot.process_commands(message)
 
 @bot.event
