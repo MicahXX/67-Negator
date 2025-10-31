@@ -105,7 +105,6 @@ async def on_message_edit(before, after):
         except discord.NotFound:
             pass
 
-
 @bot.tree.command(name="excludeuser", description="Exclude a user from filtering in this server.")
 @app_commands.checks.has_permissions(administrator=True)
 async def exclude_user(interaction: discord.Interaction, user: discord.User):
