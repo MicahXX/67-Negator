@@ -74,17 +74,17 @@ async def on_message(message):
 
 # Check edited messages in the same way
 @bot.event
-async def on_message_edit(before, after):
-    if after.author.bot or after.pinned:
+async def on_message_edit(edited):
+    if edited.author.bot or edited.pinned:
         return
-    if after.author.id == EXEMPT_USER_ID:
+    if edited.author.id == EXEMPT_USER_ID:
         return
-    if after.channel.id in EXCLUDED_CHANNEL_IDS:
+    if edited.channel.id in EXCLUDED_CHANNEL_IDS:
         return
 
-    if contains_banned_pattern(after.content):
+    if contains_banned_pattern(edited.content):
         try:
-            await after.delete()
+            await edited.delete()
         except discord.Forbidden:
             print("Missing permissions to delete edited messages.")
         except discord.NotFound:
