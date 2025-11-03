@@ -3,7 +3,6 @@ from utils.exclusions import get_guild_data
 from utils.filters import contains_banned_pattern
 import discord
 
-exclusions = {}
 
 class OnMessageEdit(commands.Cog):
     def __init__(self, bot):
@@ -14,7 +13,8 @@ class OnMessageEdit(commands.Cog):
         if after.author.bot or after.pinned or not after.guild:
             return
 
-        guild_data = get_guild_data(exclusions, after.guild.id)
+        guild_data = get_guild_data(after.guild.id)
+
         if after.author.id in guild_data["users"]:
             return
         if after.channel.id in guild_data["channels"]:
@@ -27,6 +27,7 @@ class OnMessageEdit(commands.Cog):
                 print("Missing permissions to delete edited messages.")
             except discord.NotFound:
                 pass
+
 
 async def setup(bot):
     await bot.add_cog(OnMessageEdit(bot))

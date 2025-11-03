@@ -1,20 +1,19 @@
-from discord.ext import commands
-from utils.exclusions import get_guild_data
-from utils.filters import contains_banned_pattern
+# events/on_message.py
 import discord
-
-exclusions = {}
+from discord.ext import commands
+from utils.filters import contains_banned_pattern
+from utils.exclusions import get_guild_data
 
 class OnMessage(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_message(self, message):
+    async def on_message(self, message: discord.Message):
         if message.author.bot or message.pinned or not message.guild:
             return
 
-        guild_data = get_guild_data(exclusions, message.guild.id)
+        guild_data = get_guild_data(message.guild.id)
         if message.author.id in guild_data["users"]:
             return
         if message.channel.id in guild_data["channels"]:
