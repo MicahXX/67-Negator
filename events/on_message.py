@@ -1,4 +1,3 @@
-# events/on_message.py
 import discord
 from discord.ext import commands
 from utils.filters import contains_banned_pattern
