@@ -21,7 +21,7 @@ class OnReaction(commands.Cog):
 
         emoji = reaction.emoji
 
-        if isinstance(emoji, discord.PartialEmoji):
+        if isinstance(emoji, (discord.PartialEmoji, discord.Emoji)):
             return
 
         if isinstance(emoji, str) and emoji in BANNED_EMOJIS:
