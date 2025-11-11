@@ -31,11 +31,10 @@ class OnReaction(commands.Cog):
         if emoji_str in BANNED_EMOJIS:
             try:
                 await reaction.remove(user)
-                print(f"🧹 Removed banned emoji reaction {emoji_str} from {user}.")
             except discord.Forbidden:
-                print("❌ Missing permissions to remove reactions.")
+                print("Missing permissions to remove reactions.")
             except discord.HTTPException as e:
-                print(f"⚠️ Failed to remove reaction: {e}")
+                print(f"Failed to remove reaction: {e}")
 
 
 async def setup(bot):
