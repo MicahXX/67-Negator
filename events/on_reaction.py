@@ -21,18 +21,13 @@ class OnReaction(commands.Cog):
 
         emoji = reaction.emoji
 
-        if isinstance(emoji, str):
-            if emoji not in BANNED_EMOJIS:
-                return
+        if isinstance(emoji, discord.PartialEmoji):
+            return
+
+        if isinstance(emoji, str) and emoji in BANNED_EMOJIS:
             try:
                 await reaction.remove(user)
             except discord.Forbidden:
                 print("Missing permissions to remove reactions.")
             except discord.HTTPException as e:
                 print(f"Failed to remove reaction: {e}")
-        else:
-            return
-
-
-async def setup(bot):
-    await bot.add_cog(OnReaction(bot))
