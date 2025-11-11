@@ -10,10 +10,12 @@ class OnReaction(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction: discord.Reaction, user: discord.User):
+        # Ignore bots and DMs
         if user.bot or not reaction.message.guild:
             return
 
         guild_data = get_guild_data(reaction.message.guild.id)
+
         if user.id in guild_data.get("users", []):
             return
         if reaction.message.channel.id in guild_data.get("channels", []):
@@ -21,16 +23,14 @@ class OnReaction(commands.Cog):
 
         emoji = reaction.emoji
 
-        if isinstance(emoji, (discord.PartialEmoji, discord.Emoji)):
-            return
-
         if isinstance(emoji, str) and emoji in BANNED_EMOJIS:
             try:
                 await reaction.remove(user)
             except discord.Forbidden:
-                print("Missing permissions to remove reactions.")
+                print("❌ Missing permissions to remove reactions.")
             except discord.HTTPException as e:
-                print(f"Failed to remove reaction: {e}")
+                print(f"❌ Failed to remove reaction: {e}")
 
+# Entry point for the cog
 async def setup(bot):
     await bot.add_cog(OnReaction(bot))

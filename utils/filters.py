@@ -1,23 +1,17 @@
 import re
 
-CUSTOM_EMOJI_PATTERN = re.compile(r"^<a?:[\w-]+:\d+>$")
-
-UNICODE_EMOJI_PATTERN = re.compile(
-    r"[\U0001F1E0-\U0001FAFF\u2600-\u26FF\u2700-\u27BF\uFE0F\u200D]"
-)
-
 BANNED_EMOJIS = {"🤰", "🫃", "🫄", "6️⃣", "7️⃣"}
-
 
 def is_emoji_only_message(text: str) -> bool:
     text = text.strip()
     if not text:
         return False
     parts = text.split()
-    return all(
-        CUSTOM_EMOJI_PATTERN.fullmatch(p) or UNICODE_EMOJI_PATTERN.fullmatch(p)
-        for p in parts
-    )
+    return all(part.startswith("<:") or part.startswith("<a:") or is_unicode_emoji(part) for part in parts)
+
+
+def is_unicode_emoji(s: str) -> bool:
+    return s in BANNED_EMOJIS or any(ord(c) > 10000 for c in s)  # basic Unicode emoji check
 
 
 def contains_banned_pattern(content: str) -> bool:
@@ -37,8 +31,8 @@ def contains_banned_pattern(content: str) -> bool:
     for sep in separators:
         normalized = normalized.replace(sep, "")
 
-    banned = ["67", "sixseven", "sixtyseven", "sixmyseven"]
-    if any(b in normalized for b in banned):
+    banned_patterns = ["67", "sixseven", "sixtyseven", "sixmyseven"]
+    if any(b in normalized for b in banned_patterns):
         return True
 
     for sep in separators:
