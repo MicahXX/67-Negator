@@ -1,6 +1,7 @@
 import re
 
 BANNED_EMOJIS = {"🤰", "🫃", "🫄", "6️⃣", "7️⃣"}
+CUSTOM_EMOJI_PATTERN = re.compile(r"<a?:[\w-]+:\d+>")
 
 def is_emoji_only_message(text: str) -> bool:
     text = text.strip()
@@ -9,10 +10,8 @@ def is_emoji_only_message(text: str) -> bool:
     parts = text.split()
     return all(part.startswith("<:") or part.startswith("<a:") or is_unicode_emoji(part) for part in parts)
 
-
 def is_unicode_emoji(s: str) -> bool:
-    return s in BANNED_EMOJIS or any(ord(c) > 10000 for c in s)  # basic Unicode emoji check
-
+    return s in BANNED_EMOJIS or any(ord(c) > 10000 for c in s)
 
 def contains_banned_pattern(content: str) -> bool:
     if not content:
@@ -20,14 +19,16 @@ def contains_banned_pattern(content: str) -> bool:
 
     lowered = content.lower().strip()
 
-    if any(emoji in content for emoji in BANNED_EMOJIS):
+    content_without_custom = CUSTOM_EMOJI_PATTERN.sub("", lowered)
+
+    if any(emoji in content_without_custom for emoji in BANNED_EMOJIS):
         return True
 
-    if "http://" in lowered or "https://" in lowered or "@" in lowered:
+    if "http://" in content_without_custom or "https://" in content_without_custom or "@" in content_without_custom:
         return False
 
     separators = [" ", "-", "_", "/", "&", ".", "~", ","]
-    normalized = lowered
+    normalized = content_without_custom
     for sep in separators:
         normalized = normalized.replace(sep, "")
 
@@ -36,7 +37,7 @@ def contains_banned_pattern(content: str) -> bool:
         return True
 
     for sep in separators:
-        if f"6{sep}7" in lowered or f"six{sep}seven" in lowered:
+        if f"6{sep}7" in content_without_custom or f"six{sep}seven" in content_without_custom:
             return True
 
     return False
