@@ -1,4 +1,4 @@
-# 67-Negator <img src="https://img.shields.io/github/followers/MicahXX?style=for-the-badge" alt="Followers Badge"/> <img src="https://img.shields.io/github/stars/MicahXX/67-Negator?style=for-the-badge" alt="Stars Badge"/>
+# 67-Negator <img src="https://img.shields.io/github/followers/MicahXX?style=for-the-badge" alt="Followers Badge"/>
 
 A small Discord moderation bot that purposefully deletes any message containing "67" or "six seven".<br> It also deletes any reaction that is either 6, 7 or any other meme emojis I found. <br>
 Link to add the bot to your server: [discord.com/oauth2/authorize](https://discord.com/oauth2/authorize?client_id=1433286119725862933&permissions=2147495040&integration_type=0&scope=bot+applications.commands)
