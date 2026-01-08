@@ -32,7 +32,7 @@ def contains_banned_pattern(content: str) -> bool:
     for sep in separators:
         normalized = normalized.replace(sep, "")
 
-    banned_patterns = ["67", "sixseven", "sixtyseven", "sixmyseven", "giggity"]
+    banned_patterns = ["67", "sixseven", "sixtyseven", "sixmyseven"]
     if any(b in normalized for b in banned_patterns):
         return True
 
