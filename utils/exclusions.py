@@ -2,8 +2,8 @@ import json
 from pathlib import Path
 from typing import Dict, Any
 
-DATA_DIR = Path("data")
-DATA_DIR.mkdir(exist_ok=True)
+DATA_DIR = Path("/data")
+DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 EXCLUSIONS_FILE = DATA_DIR / "exclusions.json"
 
@@ -21,22 +21,3 @@ def _ensure_loaded():
                 _EXCLUSIONS = {}
         else:
             _EXCLUSIONS = {}
-
-
-def get_all() -> Dict[str, Any]:
-    _ensure_loaded()
-    return _EXCLUSIONS
-
-
-def save_all() -> None:
-    _ensure_loaded()
-    with EXCLUSIONS_FILE.open("w", encoding="utf-8") as f:
-        json.dump(_EXCLUSIONS, f, indent=4)
-
-
-def get_guild_data(guild_id: int) -> Dict[str, list]:
-    _ensure_loaded()
-    key = str(guild_id)
-    if key not in _EXCLUSIONS:
-        _EXCLUSIONS[key] = {"users": [], "channels": []}
-    return _EXCLUSIONS[key]
