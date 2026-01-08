@@ -27,9 +27,9 @@ class OnReaction(commands.Cog):
             try:
                 await reaction.remove(user)
             except discord.Forbidden:
-                print("❌ Missing permissions to remove reactions.")
+                print("Missing permissions to remove reactions.")
             except discord.HTTPException as e:
-                print(f"❌ Failed to remove reaction: {e}")
+                print(f"Failed to remove reaction: {e}")
 
 async def setup(bot):
     await bot.add_cog(OnReaction(bot))
