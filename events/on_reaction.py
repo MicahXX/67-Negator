@@ -31,6 +31,5 @@ class OnReaction(commands.Cog):
             except discord.HTTPException as e:
                 print(f"❌ Failed to remove reaction: {e}")
 
-# Entry point for the cog
 async def setup(bot):
     await bot.add_cog(OnReaction(bot))
