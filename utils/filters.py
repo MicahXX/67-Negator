@@ -43,7 +43,7 @@ def contains_banned_pattern(content: str, ultimate_defense: bool = False) -> boo
     for sep in separators:
         normalized = normalized.replace(sep, "")
 
-    if re.search(r'(?<!\d)67(?!\d)', normalized):
+    if "67" in normalized:
         return True
 
     leet_normalized = normalized.translate(LEET_MAP)
@@ -73,7 +73,7 @@ def contains_banned_pattern(content: str, ultimate_defense: bool = False) -> boo
             return True
 
     # "6seven": regex guard so "16seventh" doesn't match.
-    if re.search(r'(?<!\d)6seven', normalized) or re.search(r'(?<!\d)6seven', leet_normalized):
+    if "6seven" in normalized or "6seven" in leet_normalized:
         return True
 
     # Separator-based checks on pre-stripped content.
@@ -91,7 +91,8 @@ def contains_banned_pattern(content: str, ultimate_defense: bool = False) -> boo
             return True
 
     if ultimate_defense:
-        if re.search(r'(?<!\d)6(?!\d)', normalized) or re.search(r'(?<!\d)7(?!\d)', normalized):
+        # Any 6 or 7 digit anywhere (catches 677, 776, 167, 76, etc.)
+        if "6" in normalized or "7" in normalized:
             return True
 
         leet_content = content_without_custom.translate(LEET_MAP)
