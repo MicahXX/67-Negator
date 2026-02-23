@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from utils.filters import contains_banned_pattern
-from utils.exclusions import get_guild_data
+from utils.exclusions import get_guild_data, get_ultimate_defense
 
 class OnMessage(commands.Cog):
     def __init__(self, bot):
@@ -18,7 +18,7 @@ class OnMessage(commands.Cog):
         if message.channel.id in guild_data["channels"]:
             return
 
-        if contains_banned_pattern(message.content):
+        if contains_banned_pattern(message.content, ultimate_defense=get_ultimate_defense(message.guild.id)):
             try:
                 await message.delete()
             except discord.Forbidden:

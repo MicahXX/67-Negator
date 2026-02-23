@@ -38,6 +38,15 @@ def get_guild_data(guild_id: int) -> Dict[str, list]:
     _ensure_loaded()
     key = str(guild_id)
     if key not in _EXCLUSIONS:
-        _EXCLUSIONS[key] = {"users": [], "channels": []}
+        _EXCLUSIONS[key] = {"users": [], "channels": [], "ultimate_defense": False}
         save_all()
     return _EXCLUSIONS[key]
+
+
+def get_ultimate_defense(guild_id: int) -> bool:
+    return get_guild_data(guild_id).get("ultimate_defense", False)
+
+
+def set_ultimate_defense(guild_id: int, value: bool) -> None:
+    get_guild_data(guild_id)["ultimate_defense"] = value
+    save_all()

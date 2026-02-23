@@ -1,7 +1,7 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
-from utils.exclusions import get_guild_data, save_all
+from utils.exclusions import get_guild_data, save_all, get_ultimate_defense, set_ultimate_defense
 
 
 class ExclusionCommands(commands.Cog):
@@ -55,6 +55,15 @@ class ExclusionCommands(commands.Cog):
             await interaction.response.send_message(f"{channel.mention} will now be unexcluded again.", ephemeral=True)
         else:
             await interaction.response.send_message(f"{channel.mention} is not excluded.", ephemeral=True)
+
+    # Toggle ultimate defense mode
+    @app_commands.command(name="ultimatedefensemode", description="Toggle ultimate defense mode (also deletes messages with a lone 6 or 7).")
+    @app_commands.checks.has_permissions(administrator=True)
+    async def ultimate_defense_mode(self, interaction: discord.Interaction):
+        current = get_ultimate_defense(interaction.guild_id)
+        set_ultimate_defense(interaction.guild_id, not current)
+        state = "enabled" if not current else "disabled"
+        await interaction.response.send_message(f"Ultimate defense mode is now **{state}**.", ephemeral=True)
 
     # Show exclusions
     @app_commands.command(name="showexclusions", description="Show all excluded users and channels.")

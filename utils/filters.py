@@ -24,7 +24,7 @@ def is_unicode_emoji(s: str) -> bool:
     return s in BANNED_EMOJIS or any(ord(c) > 10000 for c in s)
 
 
-def contains_banned_pattern(content: str) -> bool:
+def contains_banned_pattern(content: str, ultimate_defense: bool = False) -> bool:
     if not content:
         return False
 
@@ -89,5 +89,31 @@ def contains_banned_pattern(content: str) -> bool:
                 f"sessanta{sep}sette" in content_without_custom or # Italian
                 f"sessenta{sep}sete" in content_without_custom):   # Portuguese
             return True
+
+    if ultimate_defense:
+        if re.search(r'(?<!\d)6(?!\d)', normalized) or re.search(r'(?<!\d)7(?!\d)', normalized):
+            return True
+
+        leet_content = content_without_custom.translate(LEET_MAP)
+        udm_word_patterns = [
+            r'\bsix\b',         # English 6
+            r'\bseven\b',       # English 7
+            r'\bseis\b',        # Spanish / Portuguese 6
+            r'\bsiete\b',       # Spanish 7
+            r'\bsete\b',        # Portuguese 7
+            r'\bsesenta\b',     # Spanish 60
+            r'\bsessenta\b',    # Portuguese 60
+            r'\bsoixante\b',    # French 60
+            r'\bsept\b',        # French 7
+            r'\bsechs\b',       # German 6
+            r'\bsieben\b',      # German 7
+            r'\bsechzig\b',     # German 60
+            r'\bsei\b',         # Italian 6
+            r'\bsette\b',       # Italian 7
+            r'\bsessanta\b',    # Italian 60
+        ]
+        for pattern in udm_word_patterns:
+            if re.search(pattern, content_without_custom) or re.search(pattern, leet_content):
+                return True
 
     return False
